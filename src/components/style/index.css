@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.box {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.box-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-sec {
+  max-width: 650px;
+  margin: 20px auto;
+  display: flex;
+  gap: 20px;
+}
+
+.table {
+  max-width: 650px;
+  margin: 20px auto;
+}

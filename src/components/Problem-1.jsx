@@ -1,59 +1,114 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import "bootstrap/js/dist/tab";
 
 const Problem1 = () => {
+  const [inputs, setInputs] = useState({
+    name: "",
+    status: "",
+  });
+  const [tableData, setTableData] = useState([]);
+  const [filter, setFilter] = useState("All");
 
-    const [show, setShow] = useState('all');
+  const handleChange = (e) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTableData([...tableData, inputs]);
+    setInputs({
+      name: "",
+      status: "",
+    });
+  };
 
-    const handleClick = (val) =>{
-        setShow(val);
-    }
+  const filterItem = () => {
+    if (filter === "All") return tableData;
+    else return tableData.filter((item) => item.status === filter);
+  };
 
-    return (
+  //console.log("data", tableData);
 
-        <div className="container">
-            <div className="row justify-content-center mt-5">
-                <h4 className='text-center text-uppercase mb-5'>Problem-1</h4>
-                <div className="col-6 ">
-                    <form className="row gy-2 gx-3 align-items-center mb-4">
-                        <div className="col-auto">
-                            <input type="text" className="form-control" placeholder="Name"/>
-                        </div>
-                        <div className="col-auto">
-                            <input type="text" className="form-control" placeholder="Status"/>
-                        </div>
-                        <div className="col-auto">
-                            <button type="submit" className="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-                <div className="col-8">
-                    <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li className="nav-item">
-                            <button  className={`nav-link ${show==='all' && 'active'}`} type="button" onClick={()=>handleClick('all')}>All</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className={`nav-link ${show==='active' && 'active'}`} type="button" onClick={()=>handleClick('active')}>Active</button>
-                        </li>
-                        <li className="nav-item">
-                            <button  className={`nav-link ${show==='completed' && 'active'}`} type="button" onClick={()=>handleClick('completed')}>Completed</button>
-                        </li>
-                    </ul>
-                    <div className="tab-content"></div>
-                    <table className="table table-striped ">
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        
-                        </tbody>
-                    </table>
-                </div>
+  return (
+    <div className="container">
+      <h2 className="text-center m-5">PROBLEM-1</h2>
+      {/* form section */}
+      <form onSubmit={handleSubmit}>
+        <div className="box">
+          <div className="box-wrap">
+            <div className="col-md-5 m-auto">
+              <input
+                className="form-control"
+                placeholder="Name"
+                name="name"
+                value={inputs.name}
+                onChange={handleChange}
+                required
+              />
             </div>
+            <div className="col-md-5 m-auto">
+              <input
+                className="form-control"
+                placeholder="status"
+                name="status"
+                value={inputs.status}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="col-3 ms-4 mt-2">
+            <button className="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
         </div>
-    );
+      </form>
+
+      {/* category section */}
+      <div className="category-sec">
+        <button
+          className={`btn ${filter === "All" ? "btn-primary" : ""}`}
+          onClick={() => setFilter("All")}
+        >
+          All
+        </button>
+        <button
+          className={`btn ${filter === "Active" ? "btn-primary" : ""}`}
+          onClick={() => setFilter("Active")}
+        >
+          Active
+        </button>
+        <button
+          className={`btn ${filter === "Complete" ? "btn-primary" : ""}`}
+          onClick={() => setFilter("Complete")}
+        >
+          Complete
+        </button>
+      </div>
+
+      {/* table section */}
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filterItem().map((item) => (
+            <tr key={item.name}>
+              <td>{item.name}</td>
+              <td>{item.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default Problem1;
